@@ -24,7 +24,7 @@ Steps:
    - `hangman.ui`
    - `main_window.py`
    - Rename `main_window.py` to `hangman.py`
-7. Generate the python ui file
+7. Generate the Python UI file
    - `pyuic6 -o Ui_hangman.py -x hangman.ui`
 8. Update hangman.py file
    - in line 3 change `<ui_filename>` to `ui_hangman`
@@ -44,3 +44,6 @@ Steps:
     - `hangman.py` - the Python script containing the control component of our program
     - `hangman.ui` - Qt Designer file which is used to generate our UI
     - `ui_hangman.py` - the Python script containing the view component of our program
+13. make sure all your files are saved, then in GitHub Desktop:
+    - make a commit
+    - push to repository
