@@ -656,7 +656,7 @@ This is a bit trickier. When we click a letter button, we want to call a functio
 - Checks if letter is in the word
 - Updates the state of the game
 
-We have 26 letter buttons on our UI, so that could mean 26 functions, but that would be repeating yourself. So instead we write one function and pass the button object as an argument. This was the function can call methods on that button.
+We have 26 letter buttons on our UI, so that could mean 26 functions, but that would be repeating yourself. So instead we write one function and pass the button object as an argument. This way the function can call methods on that button.
 
 ##### Getting the button letter value
 
