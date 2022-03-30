@@ -126,6 +126,7 @@ class MainWindow:
         self.ui.q_btn.setEnabled(val)
         self.ui.r_btn.setEnabled(val)
         self.ui.s_btn.setEnabled(val)
+        self.ui.t_btn.setEnabled(val)
         self.ui.u_btn.setEnabled(val)
         self.ui.v_btn.setEnabled(val)
         self.ui.w_btn.setEnabled(val)
