@@ -72,6 +72,7 @@ class MainWindow:
         # control buttons
         self.ui.quit_btn.clicked.connect(QCoreApplication.instance().quit)
         self.ui.new_word_btn.clicked.connect(self.new_word_btn)
+        self.ui.lg_login_btn.clicked.connect(self.login)
         
         # letter buttons
         self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
@@ -180,6 +181,23 @@ class MainWindow:
             if self.misses == 11:
                 self.ui.result_lb.setText(f"The word was {self.word.upper()}")
                 self.set_button_enabled(False)
+                
+    def login(self):
+        """
+        checks of the entered password matches the stored password 
+        """
+        # get credentials
+        user_name = self.ui.lg_user_name_le.text()
+        password = self.ui.lg_password_le.text()
+        stored_password = self.db.get_password(user_name)
+        if stored_password != None:
+            if password == stored_password:
+                self.ui.lg_message_lb.setText("Success")
+            else:
+                self.ui.lg_message_lb.setText("Incorrect username or password")
+        else:
+            self.ui.lg_message_lb.setText("Username not registered")
+            
 
 
 if __name__ == '__main__':
