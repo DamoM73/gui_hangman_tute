@@ -10,8 +10,12 @@ class Datastore():
         db_file = "hangman_datastore.db"
         self.conn = sqlite3.connect(db_file)
         self.cur = self.conn.cursor()
-        
-            
+    
+    def __del__(self):
+        self.conn.close()
+    
+    
+    # get methods        
     def get_word(self):
         """
         returns a random word of 3 or more characters
@@ -25,5 +29,32 @@ class Datastore():
             """
         )
         results = self.cur.fetchall()
-        return random.choice(results)[0]
         
+        while True:
+            word = random.choice(results)[0]
+            if len(word) > 3:
+                return word
+            
+    
+    def get_password(self,user):
+        """
+        Retrieves user's password
+        user: str
+        return: str
+        """
+        
+        self.cur.execute(
+            """
+            SELECT password
+            FROM Users
+            WHERE name = :user
+            """,
+            {
+                "user":user
+            }
+        )
+        results = self.cur.fetchone()
+        if results is None:
+            return None
+        else:
+            return results[0]
