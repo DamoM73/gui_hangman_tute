@@ -21,6 +21,7 @@ class MainWindow:
         self.word = ""
         self.guessed_word = []
         self.misses = 0
+        self.user_id = None
         
         # ----- initialise UI with starting values ----- #
         self.choose_word()
@@ -73,6 +74,7 @@ class MainWindow:
         self.ui.quit_btn.clicked.connect(QCoreApplication.instance().quit)
         self.ui.new_word_btn.clicked.connect(self.new_word_btn)
         self.ui.lg_login_btn.clicked.connect(self.login)
+        
         
         # letter buttons
         self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
@@ -182,22 +184,24 @@ class MainWindow:
                 self.ui.result_lb.setText(f"The word was {self.word.upper()}")
                 self.set_button_enabled(False)
                 
+    
     def login(self):
         """
-        checks of the entered password matches the stored password 
+        Takes username and password from ui and checks password
+        with stored password
         """
-        # get credentials
-        user_name = self.ui.lg_user_name_le.text()
+        username = self.ui.lg_user_name_le.text()
         password = self.ui.lg_password_le.text()
-        stored_password = self.db.get_password(user_name)
+        stored_password = self.db.get_password(username)
         if stored_password != None:
-            if password == stored_password:
-                self.ui.lg_message_lb.setText("Success")
+            if stored_password == password:
+                self.user_id = self.db.get_user_id(username)
+                self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
             else:
-                self.ui.lg_message_lb.setText("Incorrect username or password")
+                self.ui.lg_message_lb.setText("Incorrect Password")
         else:
             self.ui.lg_message_lb.setText("Username not registered")
-            
+                
 
 
 if __name__ == '__main__':

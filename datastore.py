@@ -36,6 +36,7 @@ class Datastore():
                 return word
             
     
+    # get methods
     def get_password(self,user):
         """
         Retrieves user's password
@@ -58,3 +59,27 @@ class Datastore():
             return None
         else:
             return results[0]
+        
+    
+    def get_user_id(self, user):
+        """
+        Returns the user_id for the provided user
+        user: str
+        return: int
+        """
+        self.cur.execute(
+            """
+            SELECT user_id
+            FROM Users
+            WHERE name = :name
+            """,
+            {
+                "name":user
+            }
+        )
+        
+        results = self.cur.fetchone()[0]
+        
+        return results
+        
+    # add methods
