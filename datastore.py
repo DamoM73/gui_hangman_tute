@@ -55,10 +55,11 @@ class Datastore():
             }
         )
         results = self.cur.fetchone()
-        if results is None:
-            return None
-        else:
+        
+        try:
             return results[0]
+        except:
+            return None
         
     
     def get_user_id(self, user):

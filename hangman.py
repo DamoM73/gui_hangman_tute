@@ -190,10 +190,13 @@ class MainWindow:
         Takes username and password from ui and checks password
         with stored password
         """
+        # get credentials
         username = self.ui.lg_user_name_le.text()
         password = self.ui.lg_password_le.text()
         stored_password = self.db.get_password(username)
-        if stored_password != None:
+        
+        # test the validity of the password
+        if stored_password is not None:
             if stored_password == password:
                 self.user_id = self.db.get_user_id(username)
                 self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
