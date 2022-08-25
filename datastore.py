@@ -82,5 +82,49 @@ class Datastore():
         results = self.cur.fetchone()[0]
         
         return results
+    
+    
+    def get_all_usernames(self):
+        """"
+        Retrieves and returns all usernames
+        return: [str]
+        """
+        # execute SQL command
+        self.cur.execute(
+            """
+            SELECT name
+            FROM Users
+            """
+        )
+        # fetch results
+        results = self.cur.fetchall()
         
+        users = []
+        
+        for value in results:
+            users.append(value[0])
+        
+        return users
+    
+    
     # add methods
+    def add_credentials(self,user_name,password):
+        """
+        Insert username and password into datastore
+        user_name: str
+        password: str
+        """
+        # execute SQL command
+        self.cur.execute(
+            """
+            INSERT INTO Users (name,password)
+            VALUES (:name,:password)
+            """,
+            {
+                "name":user_name,
+                "password":password
+            }
+        )
+        
+        # commit command
+        self.conn.commit()

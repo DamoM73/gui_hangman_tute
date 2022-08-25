@@ -74,6 +74,8 @@ class MainWindow:
         self.ui.quit_btn.clicked.connect(QCoreApplication.instance().quit)
         self.ui.new_word_btn.clicked.connect(self.new_word_btn)
         self.ui.lg_login_btn.clicked.connect(self.login)
+        self.ui.lg_register_btn.clicked.connect(self.show_register)
+        self.ui.rg_register_btn.clicked.connect(self.register_user)
         
         
         # letter buttons
@@ -205,6 +207,24 @@ class MainWindow:
         else:
             self.ui.lg_message_lb.setText("Username not registered")
                 
+    
+    def show_register(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.register_page)
+
+
+    def register_user(self):
+        """
+        Adds user to database if user name is available
+        """
+        user_name = self.ui.rg_user_name_le.text()
+        password = self.ui.rg_password_le.text()
+        
+        if user_name in self.db.get_all_usernames():
+            self.ui.rg_message_lb("User name taken")
+        else:
+            self.db.add_credentials(user_name,password)
+            self.user_id = self.db.get_user_id(user_name)
+            self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
 
 
 if __name__ == '__main__':
