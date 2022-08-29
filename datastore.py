@@ -36,7 +36,6 @@ class Datastore():
                 return word
             
     
-    # get methods
     def get_password(self,user):
         """
         Retrieves user's password
@@ -105,6 +104,40 @@ class Datastore():
             users.append(value[0])
         
         return users
+    
+    
+    def get_guessed_words(self, user_id):
+        """
+        Retrieve a list of guessed words
+        user_id: int
+        return: [str]
+        """
+        self.cur.execute(
+            """
+            SELECT word
+            FROM Words
+            WHERE word_id IN (
+                SELECT word_id
+                FROM Games
+                WHERE user_id = :user_id AND
+                guessed = "TRUE"
+            )
+            """,
+            {
+                "user_id":user_id
+            }
+        )
+        
+        results = self.cur.fetchall()
+        
+        if results == []:
+            return results
+        else:
+            words = []
+            for value in results:
+                words.append(value[0])
+                
+            return words
     
     
     # add methods

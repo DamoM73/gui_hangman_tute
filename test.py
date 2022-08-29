@@ -2,4 +2,4 @@ from datastore import Datastore
 
 db = Datastore()
 
-print(db.get_all_usernames())
+print(db.get_guessed_words(2))

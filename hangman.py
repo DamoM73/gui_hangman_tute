@@ -39,10 +39,13 @@ class MainWindow:
 
     def choose_word(self):
         """
-        Gets word from datastore, and creates corresponding 
+        Gets an unguessed word from datastore, and creates corresponding 
         list for guessed letters
         """
         self.word = self.db.get_word()
+        self.db.get_guessed_words
+        while self.word in self.db.get_guessed_words(self.user_id):
+            self.word = self.db.get_word()
         self.guessed_word = ["_"] * len(self.word)
         
         
