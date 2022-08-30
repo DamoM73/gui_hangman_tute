@@ -18,6 +18,7 @@ class MainWindow:
         
         # ----- initialise game variables -----#
         self.db = Datastore()
+        self.word_id = None
         self.word = ""
         self.guessed_word = []
         self.misses = 0
@@ -39,13 +40,15 @@ class MainWindow:
 
     def choose_word(self):
         """
-        Gets an unguessed word from datastore, and creates corresponding 
-        list for guessed letters
+        Gets an unguessed word and it's id from datastore, and creates  
+        corresponding list for guessed letters
         """
-        self.word = self.db.get_word()
+        self.word_id, self.word = self.db.get_word()
         self.db.get_guessed_words
+        
         while self.word in self.db.get_guessed_words(self.user_id):
-            self.word = self.db.get_word()
+            self.word_id, self.word = self.db.get_word()
+        
         self.guessed_word = ["_"] * len(self.word)
         
         
@@ -180,6 +183,7 @@ class MainWindow:
             # check for win
             if "_" not in self.guessed_word:
                 self.ui.result_lb.setText("Winner!")
+                self.db.add_result(self.user_id, self.word_id, "TRUE")
         else:
             # add to the misses count, update GUI and check if game over
             self.misses += 1
@@ -188,6 +192,7 @@ class MainWindow:
             if self.misses == 11:
                 self.ui.result_lb.setText(f"The word was {self.word.upper()}")
                 self.set_button_enabled(False)
+                self.db.add_result(self.user_id, self.word_id, "FALSE")
                 
     
     def login(self):

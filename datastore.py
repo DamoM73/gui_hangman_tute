@@ -19,22 +19,21 @@ class Datastore():
     def get_word(self):
         """
         returns a random word of 3 or more characters
-        return: str
+        return: (int,str)
         """
         
         self.cur.execute(
             """
-            SELECT word
+            SELECT word_id, word
             FROM Words
             """
         )
         results = self.cur.fetchall()
         
         while True:
-            word = random.choice(results)[0]
-            if len(word) > 3:
-                return word
-            
+            word = random.choice(results)
+            if len(word[1]) > 3:
+                return word    
     
     def get_password(self,user):
         """
@@ -140,6 +139,22 @@ class Datastore():
             return words
     
     
+    def get_games_played(self,user_id):
+        pass
+    
+    
+    def get_games_won(self,user_id):
+        pass
+    
+    
+    def get_longest_word(self,user_id):
+        pass
+    
+    
+    def get_most_frequent(self,user_id):
+        pass
+    
+    
     # add methods
     def add_credentials(self,user_name,password):
         """
@@ -160,4 +175,26 @@ class Datastore():
         )
         
         # commit command
+        self.conn.commit()
+        
+    
+    def add_result(self, user_id, word_id, guessed):
+        """
+        Adds game result to the games table
+        user_id: int
+        word_id: int
+        guessed: str
+        """
+        self.cur.execute(
+            """
+            INSERT INTO Games (user_id, word_id, guessed)
+            VALUES (:user_id,:word_id,:guessed)
+            """,
+            {
+                "user_id":user_id,
+                "word_id":word_id,
+                "guessed":guessed
+            }
+        )
+        
         self.conn.commit()
