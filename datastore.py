@@ -76,10 +76,8 @@ class Datastore():
                 "name":user
             }
         )
-        
-        results = self.cur.fetchone()[0]
-        
-        return results
+
+        return self.cur.fetchone()[0]
     
     
     def get_all_usernames(self):
@@ -111,8 +109,7 @@ class Datastore():
         user_id: int
         return: [str]
         """
-        self.cur.execute(
-            """
+        self.cur.execute("""
             SELECT word
             FROM Words
             WHERE word_id IN (
@@ -121,22 +118,10 @@ class Datastore():
                 WHERE user_id = :user_id AND
                 guessed = "TRUE"
             )
-            """,
-            {
-                "user_id":user_id
-            }
-        )
-        
+            """, {"user_id": user_id})
+
         results = self.cur.fetchall()
-        
-        if results == []:
-            return results
-        else:
-            words = []
-            for value in results:
-                words.append(value[0])
-                
-            return words
+        return results if results == [] else [value[0] for value in results]
     
     
     def get_games_played(self,user_id):
